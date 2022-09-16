@@ -1,12 +1,13 @@
 import calendar
 import datetime
-import pprint
+# import pprint
 
 import PySimpleGUI as sg
-import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib
+matplotlib.use('TkAgg')
+
 
 sg.theme("DarkBrown2")
 
@@ -63,8 +64,8 @@ def income():
 def txn_per_day(txn_date, amt):
     txn_day = cal_dates[txn_date.month]
     txn_day[txn_date.day - 1] += amt
-    pprint.pprint(cal_dates)
-    print(cal_dates[txn_date.month])
+    # pprint.pprint(cal_dates)
+    # print(cal_dates[txn_date.month])
 
 
 def update_figure(txn_month):
@@ -81,8 +82,8 @@ def update_figure(txn_month):
         figure_canvas_agg = FigureCanvasTkAgg(fig, window['-GRAPH-'].TKCanvas)
     ax.plot(day_txn, cal_dates[idx], "k-o")
     ax.set_title("Expense vs Day")
-    ax.set_xlabel('days')
-    ax.set_ylabel('expense')
+    ax.set_xlabel(txn_date.strftime("%B"))
+    ax.set_ylabel('Expenses')
     ax.grid()
     figure_agg = True
     figure_canvas_agg.draw()
@@ -119,12 +120,10 @@ while True:
         sg.popup("Your transaction updated Successfully!!")
         window['-DIF-'].update(tot_inc - tot_exp)
         window['-AMT-'].update('')
-        window['-DATE-'].update('')
         update_figure(txn_date.month)
     elif event == "Expense":
         expenses()
     elif event == "Income":
         income()
-
 
 window.close()
